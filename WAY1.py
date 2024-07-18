@@ -14,7 +14,7 @@ class Window2d():
     def update(self):
         self.draw2d()
 
-    def drawModel2d(self):
+    def drawModel2d(self): # 출력 형식 초기 설정
        
         for f in self.model2d.faces:
             glColor3f(f.colorR, f.colorG, f.colorB)
@@ -31,7 +31,7 @@ class Window2d():
             glEnd()
 
 
-    def draw2d(self):
+    def draw2d(self): # 출력 형식 설정
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
@@ -77,16 +77,15 @@ class Window2d():
         self.update()
 
     def keyInput(self, key, x, y):
-        if key == b' ':
+        if key == b' ':  # 스페이스 입력 시 폴리곤 상태 출력
             self.polygonsInfo()
-        if key == b'p':
+        if key == b'p': # p 입력 시 평면에 폴리곤 출력
             self.toPlane()
-        if key == b's':
-
+        if key == b's': # s 입력 시 세타 값을 고려한 폴리곤 출력
             self.calucSita()
         self.update()
 
-    def calucW(self, sitas, idVtm, idEtm):
+    def calucW(self, sitas, idVtm, idEtm): 
         np.set_printoptions(suppress=True, threshold = 1000000, linewidth=200)
         c = np.zeros((idVtm*2, idEtm))
         ws = np.zeros((idEtm, 1))
@@ -116,7 +115,7 @@ class Window2d():
         print("norm(C*ws - b) = " + str(np.linalg.norm(np.dot(c,ws)-b)))
 
 
-    def calucSita(self):
+    def calucSita(self):  # 세타 값 계산 함수
 
         np.set_printoptions(suppress=True, threshold = 1000000, linewidth=200)
         idEtm = 0
