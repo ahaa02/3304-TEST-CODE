@@ -106,28 +106,26 @@ import os
 def concatenate_images(image_paths, output_path):
     images = [Image.open(img_path).convert("RGBA") for img_path in image_paths if img_path]  # 이미지 경로가 유효한 경우에만 열기
     widths, heights = zip(*(i.size for i in images))
+
     total_width = sum(widths)
     max_height = max(heights)
+
     concatenated_image = Image.new('RGBA', (total_width, max_height), (0, 0, 0, 0))  # 투명 배경 이미지 생성
+
     x_offset = 0
     for img in images:
         concatenated_image.paste(img, (x_offset, 0), img)  # 이미지를 합성하며 투명한 부분은 그대로 유지
         x_offset += img.width
+
+        # 이미지를 저장
+        concatenated_image.save(output_path)
+        print(f"Concatenated image saved at {output_path}")
+
     return concatenated_image
-# 검은 배경에 이미지를 놓는 함수
-def overlay_on_black_background(image_paths, output_path):
-    concatenated_image = concatenate_images(image_paths, output_path)
-    # 검은 배경 이미지 생성
-    black_background = Image.new('RGBA', concatenated_image.size, (0, 0, 0, 255))
-    # 검은 배경 위에 이미지 붙이기
-    final_image = Image.alpha_composite(black_background, concatenated_image)
-    # 저장
-    final_image.save(output_path)
-    print(f"Final image saved at {output_path}")
-    
+
 # 배열된 이미지 경로 설정
 output_folder = 'output_images'
 os.makedirs(output_folder, exist_ok=True)
-result = ['output_images\\slice_0.png', 'output_images\\slice_7.png', 'output_images\\slice_5.png',
-          'output_images\\slice_2.png', 'output_images\\slice_3.png', 'output_images\\slice_4.png',
-          'output_images\\slice_6.png', 'output_images\\slice_1.png']
+
+output_image_path = os.path.join(output_dir, 'concatenated_image.png')
+concatenate_images(result, output_image_path)
