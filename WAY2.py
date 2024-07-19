@@ -79,15 +79,15 @@ def arrange_images(slice_groups, image_data):
     result[0] = image_data[index]
     result[-1] = image_data[index + 1]
     index += 2
-    left_index = len(result) // 2 - 1
-    right_index = len(result) // 2
-    reverse = True
+    left_index = len(result) // 2 - 1 #왼쪽 이동 변수
+    right_index = len(result) // 2 #오른쪽 이동 변수
+    reverse = True # 역순 출력 변수
     for group_size in slice_groups[1:]:
         for i in range(group_size // 2):
-            if reverse:
+            if reverse: #역순 배치
                 result[left_index - i] = image_data[index + 1]
                 result[right_index + i] = image_data[index]
-            else:
+            else: #그대로 배치
                 result[left_index - i] = image_data[index]
                 result[right_index + i] = image_data[index + 1]
             index += 2
